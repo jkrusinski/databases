@@ -14,6 +14,19 @@ module.exports.app = app;
 // Set what we are listening on.
 app.set('port', 3000);
 
+app.use(function (req, res, next) {
+  res.header('access-control-allow-origin', '*');
+  res.header('access-control-allow-methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('access-control-allow-headers', 'content-type, accept');
+  res.header('access-control-max-age', 10);
+
+  if ('OPTIONS' === req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+});
+
 // Logging and parsing
 app.use(morgan('dev'));
 app.use(parser.json());
